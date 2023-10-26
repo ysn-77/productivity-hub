@@ -24,7 +24,7 @@ RSpec.describe Mutations::NoteCreate do
     GQL
   end
 
-  let(:context) { { current_user_id: nil } }
+  let(:context) { { current_user_id: User.first.id } }
   let(:name) { 'name' }
   let(:content) { 'content' }
 
