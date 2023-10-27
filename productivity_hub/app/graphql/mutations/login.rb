@@ -2,7 +2,7 @@
 
 module Mutations
   class Login < BaseMutation
-    description "Logs the user in"
+    description 'Logs the user in'
 
     type Types::UserType, null: false
 
@@ -10,10 +10,9 @@ module Mutations
     argument :password, String
 
     def resolve(username:, password:)
-      user = User.find_by(username: username)
-      unless user&.authenticate(password)
-        raise GraphQL::ExecutionError.new("Invalid username or password")
-      end
+      user = User.find_by(username:)
+      raise GraphQL::ExecutionError, 'Invalid username or password' unless user&.authenticate(password)
+
       user
     end
   end

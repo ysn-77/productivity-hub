@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Queries
   class Notes < Queries::BaseQuery
     description 'List all Notes for user'

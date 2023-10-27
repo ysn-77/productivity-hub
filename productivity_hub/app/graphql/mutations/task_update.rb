@@ -2,7 +2,7 @@
 
 module Mutations
   class TaskUpdate < BaseMutation
-    description "Updates a task by id"
+    description 'Updates a task by id'
 
     type Types::TaskType, null: false
 
@@ -14,15 +14,14 @@ module Mutations
     def resolve(id:, **args)
       authenticate!
       task = ::Task.find(id)
-      unless current_user_id.to_i == task.user_id
-        raise GraphQL::ExecutionError.new "Unauthorized"
-      end
+      raise GraphQL::ExecutionError, 'Unauthorized' unless current_user_id.to_i == task.user_id
       unless task.update(**args)
-        raise GraphQL::ExecutionError.new "Error updating task", extensions: task.errors.full_messages
+        raise GraphQL::ExecutionError.new 'Error updating task', extensions: task.errors.full_messages
       end
+
       task
     rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new 'Record not found'
+      raise GraphQL::ExecutionError, 'Record not found'
     end
   end
 end

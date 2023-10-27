@@ -13,17 +13,21 @@ class GraphqlController < ApplicationController
     context = {
       current_user_id: get_current_user_id
     }
-    result = ProductivityHubSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    result = ProductivityHubSchema.execute(
+      query, variables:, context:,
+             operation_name:
+    )
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
+
     handle_error_in_development(e)
   end
 
   private
 
   def get_current_user_id
-    request.headers["User-Id"]
+    request.headers['User-Id']
   end
 
   # Handle variables in form data, JSON body, or a blank value

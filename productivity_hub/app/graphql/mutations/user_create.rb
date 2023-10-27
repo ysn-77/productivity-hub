@@ -2,7 +2,7 @@
 
 module Mutations
   class UserCreate < BaseMutation
-    description "Creates a new task"
+    description 'Creates a new task'
 
     type Types::UserType, null: false
 
@@ -10,10 +10,9 @@ module Mutations
     argument :password, String, required: true
 
     def resolve(username:, password:)
-      user = ::User.new(username: username, password: password)
-      unless user.save
-        raise GraphQL::ExecutionError.new "Error creating user", extensions: user.errors.full_messages
-      end
+      user = ::User.new(username:, password:)
+      raise GraphQL::ExecutionError.new 'Error creating user', extensions: user.errors.full_messages unless user.save
+
       user
     end
   end

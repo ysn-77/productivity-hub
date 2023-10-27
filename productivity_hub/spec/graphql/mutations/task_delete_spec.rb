@@ -1,11 +1,14 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Mutations::TaskDelete do
-
   subject do
-    ProductivityHubSchema.execute(query, context: context, variables: {
-      id: task_id,
-    })
+    ProductivityHubSchema.execute(
+      query, context:, variables: {
+        id: task_id
+      }
+    )
   end
 
   let(:query) do
@@ -24,9 +27,9 @@ RSpec.describe Mutations::TaskDelete do
   let(:task_id) { Task.first.id }
 
   shared_examples :returns_an_error do
-    it "returns an error" do
-      expect(subject.dig(*%w'data taskDelete id')).to be_nil
-      expect(subject.dig(*%w'errors')).to be_present
+    it 'returns an error' do
+      expect(subject.dig(*%w[data taskDelete id])).to be_nil
+      expect(subject.dig(*%w[errors])).to be_present
     end
   end
 
@@ -46,11 +49,10 @@ RSpec.describe Mutations::TaskDelete do
   end
 
   context 'when task is present and belongs to user' do
-    it "deletes the Task" do
+    it 'deletes the Task' do
       expect { subject }.to change(Task, :count).by(-1)
-      expect(subject.dig(*%w'data taskDelete id')).to eq task_id.to_s
-      expect(subject.dig(*%w'errors')).to be_blank
+      expect(subject.dig(*%w[data taskDelete id])).to eq task_id.to_s
+      expect(subject.dig(*%w[errors])).to be_blank
     end
   end
-
 end

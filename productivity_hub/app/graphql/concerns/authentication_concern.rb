@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AuthenticationConcern
   extend ActiveSupport::Concern
 
@@ -9,9 +11,9 @@ module AuthenticationConcern
     end
 
     def authenticate!
-      if current_user_id.blank?
-        raise GraphQL::ExecutionError, "Authentication failed"
-      end
+      return unless current_user_id.blank?
+
+      raise GraphQL::ExecutionError, 'Authentication failed'
     end
   end
 end

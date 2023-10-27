@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Queries
   class Tasks < Queries::BaseQuery
     description 'List all Tasks for user'

@@ -1,11 +1,14 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Mutations::NoteDelete do
-
   subject do
-    ProductivityHubSchema.execute(query, context: context, variables: {
-      id: note_id,
-    })
+    ProductivityHubSchema.execute(
+      query, context:, variables: {
+        id: note_id
+      }
+    )
   end
 
   let(:query) do
@@ -24,9 +27,9 @@ RSpec.describe Mutations::NoteDelete do
   let(:note_id) { Note.first.id }
 
   shared_examples :returns_an_error do
-    it "returns an error" do
-      expect(subject.dig(*%w'data noteDelete id')).to be_nil
-      expect(subject.dig(*%w'errors')).to be_present
+    it 'returns an error' do
+      expect(subject.dig(*%w[data noteDelete id])).to be_nil
+      expect(subject.dig(*%w[errors])).to be_present
     end
   end
 
@@ -46,11 +49,10 @@ RSpec.describe Mutations::NoteDelete do
   end
 
   context 'when note is present and belongs to user' do
-    it "deletes the Note" do
+    it 'deletes the Note' do
       expect { subject }.to change(Note, :count).by(-1)
-      expect(subject.dig(*%w'data noteDelete id')).to eq note_id.to_s
-      expect(subject.dig(*%w'errors')).to be_blank
+      expect(subject.dig(*%w[data noteDelete id])).to eq note_id.to_s
+      expect(subject.dig(*%w[errors])).to be_blank
     end
   end
-
 end

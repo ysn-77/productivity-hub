@@ -2,7 +2,7 @@
 
 module Mutations
   class TaskCreate < BaseMutation
-    description "Creates a new task"
+    description 'Creates a new task'
 
     type Types::TaskType, null: false
 
@@ -13,9 +13,8 @@ module Mutations
     def resolve(**args)
       authenticate!
       task = ::Task.new(user_id: current_user_id, **args)
-      unless task.save
-        raise GraphQL::ExecutionError.new "Error creating task", extensions: task.errors.full_messages
-      end
+      raise GraphQL::ExecutionError.new 'Error creating task', extensions: task.errors.full_messages unless task.save
+
       task
     end
   end

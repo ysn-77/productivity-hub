@@ -2,7 +2,7 @@
 
 module Mutations
   class NoteDelete < BaseMutation
-    description "Deletes a note by ID"
+    description 'Deletes a note by ID'
 
     type Types::NoteType, null: false
 
@@ -11,15 +11,14 @@ module Mutations
     def resolve(id:)
       authenticate!
       note = ::Note.find(id)
-      unless current_user_id.to_i == note.user_id
-        raise GraphQL::ExecutionError.new "Unauthorized"
-      end
+      raise GraphQL::ExecutionError, 'Unauthorized' unless current_user_id.to_i == note.user_id
       unless note.destroy!
-        raise GraphQL::ExecutionError.new "Error deleting note", extensions: note.errors.full_messages
+        raise GraphQL::ExecutionError.new 'Error deleting note', extensions: note.errors.full_messages
       end
+
       note
     rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new 'Record not found'
+      raise GraphQL::ExecutionError, 'Record not found'
     end
   end
 end

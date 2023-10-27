@@ -2,7 +2,7 @@
 
 module Mutations
   class NoteCreate < BaseMutation
-    description "Creates a new note"
+    description 'Creates a new note'
 
     type Types::NoteType, null: false
 
@@ -11,10 +11,9 @@ module Mutations
 
     def resolve(name:, content:)
       authenticate!
-      note = ::Note.new(name: name, content: content, user_id: current_user_id)
-      unless note.save
-        raise GraphQL::ExecutionError.new "Error creating note", extensions: note.errors.full_messages
-      end
+      note = ::Note.new(name:, content:, user_id: current_user_id)
+      raise GraphQL::ExecutionError.new 'Error creating note', extensions: note.errors.full_messages unless note.save
+
       note
     end
   end

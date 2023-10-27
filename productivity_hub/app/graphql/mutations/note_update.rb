@@ -2,7 +2,7 @@
 
 module Mutations
   class NoteUpdate < BaseMutation
-    description "Updates a note by id"
+    description 'Updates a note by id'
 
     type Types::NoteType, null: false
 
@@ -13,15 +13,14 @@ module Mutations
     def resolve(id:, **args)
       authenticate!
       note = ::Note.find(id)
-      unless current_user_id.to_i == note.user_id
-        raise GraphQL::ExecutionError.new "Unauthorized"
-      end
+      raise GraphQL::ExecutionError, 'Unauthorized' unless current_user_id.to_i == note.user_id
       unless note.update(**args)
-        raise GraphQL::ExecutionError.new "Error updating note", extensions: note.errors.full_messages
+        raise GraphQL::ExecutionError.new 'Error updating note', extensions: note.errors.full_messages
       end
+
       note
     rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new 'Record not found'
+      raise GraphQL::ExecutionError, 'Record not found'
     end
   end
 end

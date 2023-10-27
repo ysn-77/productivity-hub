@@ -1,13 +1,18 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Mutations::NoteUpdate do
-
   subject do
-    ProductivityHubSchema.execute(query, context: context, variables: {
-      id: note_id,
-      name: name,
-      content: content
-    })
+    ProductivityHubSchema.execute(
+      query,
+      context:,
+      variables: {
+        id: note_id,
+        name:,
+        content:
+      }
+    )
   end
 
   let(:query) do
@@ -32,17 +37,17 @@ RSpec.describe Mutations::NoteUpdate do
   let(:content) { 'new content' }
 
   context 'when values provided are correct' do
-    it "updates the Note" do
+    it 'updates the Note' do
       expect { subject }.to change(Note, :count).by(0)
-      expect(subject.dig(*%w'data noteUpdate name')).to eq name
-      expect(subject.dig(*%w'data noteUpdate content')).to eq content
+      expect(subject.dig(*%w[data noteUpdate name])).to eq name
+      expect(subject.dig(*%w[data noteUpdate content])).to eq content
     end
   end
 
   shared_examples :returns_an_error do
-    it "returns an error" do
-      expect(subject.dig(*%w'data noteUpdate name')).to be_nil
-      expect(subject.dig(*%w'errors')).to be_present
+    it 'returns an error' do
+      expect(subject.dig(*%w[data noteUpdate name])).to be_nil
+      expect(subject.dig(*%w[errors])).to be_present
     end
   end
 
@@ -65,5 +70,4 @@ RSpec.describe Mutations::NoteUpdate do
     let(:note_id) { -1 }
     include_examples :returns_an_error
   end
-
 end
