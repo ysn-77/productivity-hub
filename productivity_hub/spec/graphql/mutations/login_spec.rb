@@ -22,16 +22,23 @@ RSpec.describe Mutations::Login do
   end
 
   let(:username) { 'one' }
-
+  let(:password) { 'one' }
   context 'when username and password are correct' do
-    let(:password) { 'one' }
     it 'authenticates the user' do
       expect(subject.dig(*%w[data login username])).to eq 'one'
     end
   end
 
-  context 'when username and password are incorrect' do
+  context 'when password is incorrect' do
     let(:password) { 'wrong' }
+    it 'returns an error' do
+      expect(subject.dig(*%w[data login username])).to be_nil
+      expect(subject.dig(*%w[errors])).to be_present
+    end
+  end
+
+  context 'when username is incorrect' do
+    let(:username) { 'wrong' }
     it 'returns an error' do
       expect(subject.dig(*%w[data login username])).to be_nil
       expect(subject.dig(*%w[errors])).to be_present

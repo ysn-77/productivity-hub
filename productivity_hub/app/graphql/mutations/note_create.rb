@@ -9,9 +9,9 @@ module Mutations
     argument :name, String
     argument :content, String, required: false
 
-    def resolve(name:, content:)
+    def resolve(**args)
       authenticate!
-      note = ::Note.new(name:, content:, user_id: current_user_id)
+      note = ::Note.new(user_id: current_user_id, **args)
       raise GraphQL::ExecutionError.new 'Error creating note', extensions: note.errors.full_messages unless note.save
 
       note
