@@ -26,7 +26,7 @@ RSpec.describe Mutations::NoteDelete do
   let(:context) { { current_user_id: User.first.id } }
   let(:note_id) { Note.first.id }
 
-  shared_examples :returns_an_error do
+  shared_examples 'returns an error' do
     it 'returns an error' do
       expect(subject.dig(*%w[data noteDelete id])).to be_nil
       expect(subject.dig(*%w[errors])).to be_present
@@ -35,17 +35,20 @@ RSpec.describe Mutations::NoteDelete do
 
   context 'when User is not logged in' do
     let(:context) { { current_user_id: nil } }
-    include_examples :returns_an_error
+
+    include_examples 'returns an error'
   end
 
   context 'when note does not exist' do
     let(:note_id) { -1 }
-    include_examples :returns_an_error
+
+    include_examples 'returns an error'
   end
 
   context 'when note is present but does not belong to user' do
     let(:note_id) { User.second.notes.first.id }
-    include_examples :returns_an_error
+
+    include_examples 'returns an error'
   end
 
   context 'when note is present and belongs to user' do

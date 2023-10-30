@@ -33,6 +33,7 @@ RSpec.describe Mutations::NoteCreate do
 
   context 'when values provided are correct' do
     let(:context) { { current_user_id: User.first.id } }
+
     it 'creates the Note' do
       expect { subject }.to change(Note, :count).by(1)
       expect(subject.dig(*%w[data noteCreate name])).to eq name
@@ -40,7 +41,7 @@ RSpec.describe Mutations::NoteCreate do
     end
   end
 
-  shared_examples :returns_an_error do
+  shared_examples 'returns an error' do
     it 'returns an error' do
       expect(subject.dig(*%w[data noteCreate name])).to be_nil
       expect(subject.dig(*%w[errors])).to be_present
@@ -49,11 +50,13 @@ RSpec.describe Mutations::NoteCreate do
 
   context 'when User is not logged in' do
     let(:context) { { current_user_id: nil } }
-    include_examples :returns_an_error
+
+    include_examples 'returns an error'
   end
 
   context 'when name is not provided' do
     let(:name) { nil }
-    include_examples :returns_an_error
+
+    include_examples 'returns an error'
   end
 end

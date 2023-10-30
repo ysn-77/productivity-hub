@@ -11,7 +11,7 @@ module AuthenticationConcern
     end
 
     def authenticate!
-      return unless current_user_id.blank?
+      return if current_user_id.present?
 
       raise GraphQL::ExecutionError, 'Authentication failed'
     end

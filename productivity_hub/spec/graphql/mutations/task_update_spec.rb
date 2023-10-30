@@ -49,7 +49,7 @@ RSpec.describe Mutations::TaskUpdate do
     end
   end
 
-  shared_examples :returns_an_error do
+  shared_examples 'returns an error' do
     it 'returns an error' do
       expect(subject.dig(*%w[data taskUpdate name])).to be_nil
       expect(subject.dig(*%w[errors])).to be_present
@@ -58,21 +58,25 @@ RSpec.describe Mutations::TaskUpdate do
 
   context 'when task is present but does not belong to user' do
     let(:task_id) { User.second.tasks.first.id }
-    include_examples :returns_an_error
+
+    include_examples 'returns an error'
   end
 
   context 'when User is not logged in' do
     let(:context) { { current_user_id: nil } }
-    include_examples :returns_an_error
+
+    include_examples 'returns an error'
   end
 
   context 'when name is being removed' do
     let(:name) { nil }
-    include_examples :returns_an_error
+
+    include_examples 'returns an error'
   end
 
   context 'when task does not exist' do
     let(:task_id) { -1 }
-    include_examples :returns_an_error
+
+    include_examples 'returns an error'
   end
 end
