@@ -1,7 +1,10 @@
 import { Alert, Snackbar } from '@mui/material';
 import { createRoot } from 'react-dom/client';
 
-const showNotification = (message: string, type: 'success' | 'error' | 'warning' | 'info' = 'error') => {
+const showNotification = (
+  message: string,
+  type: 'success' | 'error' | 'warning' | 'info' = 'error',
+) => {
   const container = document.createElement('div');
   const root = createRoot(container);
   document.body.appendChild(container);
@@ -15,7 +18,7 @@ const showNotification = (message: string, type: 'success' | 'error' | 'warning'
       <Alert severity={type} sx={{ width: '100%' }}>
         {message}
       </Alert>
-    </Snackbar>
+    </Snackbar>,
   );
 
   setTimeout(() => {

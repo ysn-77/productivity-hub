@@ -6,10 +6,14 @@ import TaskFormDialog from './TaskFormDialog';
 import { useState } from 'react';
 
 function TasksView() {
-  const { data } = useQuery<{tasks: Task[]}>(GET_TASKS);
+  const { data } = useQuery<{ tasks: Task[] }>(GET_TASKS);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const handleCreateTask = () => { setDialogOpen(true);};
-  const tasksList = data?.tasks.map(task => <Task task={task} key={task.id} />).reverse();
+  const handleCreateTask = () => {
+    setDialogOpen(true);
+  };
+  const tasksList = data?.tasks
+    .map((task) => <Task task={task} key={task.id} />)
+    .reverse();
 
   return (
     <>

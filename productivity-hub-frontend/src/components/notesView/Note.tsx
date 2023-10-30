@@ -1,5 +1,12 @@
 import { useMutation } from '@apollo/client';
-import { Accordion, AccordionSummary, Typography, AccordionDetails, Stack, Button } from '@mui/material';
+import {
+  Accordion,
+  AccordionSummary,
+  Typography,
+  AccordionDetails,
+  Stack,
+  Button,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { apolloClient } from '../../API/apolloClient';
 import { NOTE_DELETE } from '../../API/mutations';
@@ -14,17 +21,21 @@ function Note({ note }: { note: Note }) {
   const [deleteNoteMutation] = useMutation(NOTE_DELETE);
 
   const handleDelete = () => {
-    deleteNoteMutation({ variables: { id } }).then(() => {
-      showNotification('Note Deleted', 'success');
-      apolloClient.refetchQueries({
-        include: [GET_NOTES],
+    deleteNoteMutation({ variables: { id } })
+      .then(() => {
+        showNotification('Note Deleted', 'success');
+        apolloClient.refetchQueries({
+          include: [GET_NOTES],
+        });
+      })
+      .catch((error) => {
+        showNotification(error.message);
       });
-    }).catch(error => {
-      showNotification(error.message);
-    });
   };
 
-  const handleEdit = () => { setDialogOpen(true); };
+  const handleEdit = () => {
+    setDialogOpen(true);
+  };
 
   return (
     <Accordion>
@@ -32,11 +43,13 @@ function Note({ note }: { note: Note }) {
         <Typography variant="h6">{name}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography sx={{ textAlign: 'left' }}>
-          {content}
-        </Typography>
+        <Typography sx={{ textAlign: 'left' }}>{content}</Typography>
         <Stack direction="row" justifyContent="end">
-          <NoteFormDialog open={dialogOpen} setOpen={setDialogOpen} note={note} />
+          <NoteFormDialog
+            open={dialogOpen}
+            setOpen={setDialogOpen}
+            note={note}
+          />
           <Button variant="text" onClick={handleEdit}>
             Edit
           </Button>

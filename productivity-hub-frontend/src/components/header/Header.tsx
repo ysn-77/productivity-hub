@@ -1,13 +1,22 @@
-import { AppBar, Box, Button, CssBaseline, Tab, Tabs, Toolbar, Typography } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  Button,
+  CssBaseline,
+  Tab,
+  Tabs,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { apolloClient } from '../../API/apolloClient';
 
 interface HeaderProps {
-  tab: 'Notes' | 'Tasks'
+  tab: 'Notes' | 'Tasks';
 }
 
-function Header({ tab } : HeaderProps) {
+function Header({ tab }: HeaderProps) {
   const navigate = useNavigate();
 
   const onLogoutClick = () => {
@@ -24,18 +33,13 @@ function Header({ tab } : HeaderProps) {
           <Typography variant="h6" color="inherit" noWrap>
             Productivity App
           </Typography>
-          <Tabs
-            centered
-            value={tab}
-            textColor="inherit"
-            sx={{ ml: 2 }}
-          >
+          <Tabs centered value={tab} textColor="inherit" sx={{ ml: 2 }}>
             <Tab label="Notes" value="Notes" component={Link} to="/notes" />
             <Tab label="Tasks" value="Tasks" component={Link} to="/tasks" />
           </Tabs>
           <Button
             onClick={onLogoutClick}
-            color='inherit'
+            color="inherit"
             variant="text"
             sx={{ ml: 'auto' }}
           >

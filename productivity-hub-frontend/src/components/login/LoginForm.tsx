@@ -21,14 +21,16 @@ function LoginForm() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    loginMutation({ variables: { username, password } }).then(response => {
-      const { id } = response.data.login;
-      localStorage.setItem('currentUserId', id);
-      localStorage.setItem('currentUsername', username);
-      navigate('/notes');
-    }).catch(error => {
-      showNotification(error.message);
-    });
+    loginMutation({ variables: { username, password } })
+      .then((response) => {
+        const { id } = response.data.login;
+        localStorage.setItem('currentUserId', id);
+        localStorage.setItem('currentUsername', username);
+        navigate('/notes');
+      })
+      .catch((error) => {
+        showNotification(error.message);
+      });
   };
 
   return (

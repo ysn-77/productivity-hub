@@ -1,4 +1,12 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TASK_CREATE, TASK_UPDATE } from '../../API/mutations';
 import { useMutation } from '@apollo/client';
@@ -9,17 +17,19 @@ import { ChangeEvent, useState } from 'react';
 import moment, { Moment } from 'moment';
 
 interface TaskFormDialogProps {
-  open: boolean,
-  setOpen: (value: boolean) => void,
-  task?: Task
+  open: boolean;
+  setOpen: (value: boolean) => void;
+  task?: Task;
 }
 
 function TaskFormDialog({ open, setOpen, task }: TaskFormDialogProps) {
   const isEdit = task !== undefined;
   const [name, setName] = useState(isEdit ? task.name : '');
-  const [description, setDescription] = useState(isEdit ? task.description : '');
+  const [description, setDescription] = useState(
+    isEdit ? task.description : '',
+  );
   const [dueDate, setDueDate] = useState<Moment | null>(
-    isEdit && task.dueDate !== null ? moment(task.dueDate) : null
+    isEdit && task.dueDate !== null ? moment(task.dueDate) : null,
   );
   const [createTaskMutation] = useMutation(TASK_CREATE);
   const [updateTaskMutation] = useMutation(TASK_UPDATE);
@@ -42,19 +52,26 @@ function TaskFormDialog({ open, setOpen, task }: TaskFormDialogProps) {
 
   const handleSubmit = () => {
     const mutation = isEdit ? updateTaskMutation : createTaskMutation;
-    const variables = isEdit ? { id: task.id, name, description, dueDate } : { name, description, dueDate };
+    const variables = isEdit
+      ? { id: task.id, name, description, dueDate }
+      : { name, description, dueDate };
 
-    mutation({ variables }).then(() => {
-      showNotification(isEdit ? 'Task Edited' : 'Task Created', 'success');
-      apolloClient.refetchQueries({
-        include: [GET_TASKS],
-      }).finally();
-    }).catch(error => {
-      console.log(error.message);
-      showNotification(error.message);
-    }).finally(() => {
-      setOpen(false);
-    });
+    mutation({ variables })
+      .then(() => {
+        showNotification(isEdit ? 'Task Edited' : 'Task Created', 'success');
+        apolloClient
+          .refetchQueries({
+            include: [GET_TASKS],
+          })
+          .finally();
+      })
+      .catch((error) => {
+        console.log(error.message);
+        showNotification(error.message);
+      })
+      .finally(() => {
+        setOpen(false);
+      });
   };
 
   return (
@@ -66,7 +83,7 @@ function TaskFormDialog({ open, setOpen, task }: TaskFormDialogProps) {
             label="Name"
             required
             autoFocus
-            autoComplete='off'
+            autoComplete="off"
             margin="dense"
             fullWidth
             variant="outlined"
@@ -88,7 +105,7 @@ function TaskFormDialog({ open, setOpen, task }: TaskFormDialogProps) {
             sx={{ mt: 1 }}
             value={dueDate}
             onChange={handleDueDateChange}
-            format='YYYY-MM-DD'
+            format="YYYY-MM-DD"
             slotProps={{
               field: { clearable: true },
             }}

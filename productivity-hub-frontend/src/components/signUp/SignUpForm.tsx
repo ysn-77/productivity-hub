@@ -21,14 +21,16 @@ function SignUpForm() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    signUpMutation({ variables: { username, password } }).then(response => {
-      const { id } = response.data.userCreate;
-      localStorage.setItem('currentUserId', id);
-      localStorage.setItem('currentUsername', username);
-      navigate('/notes');
-    }).catch(error => {
-      showNotification(Object.keys(error.graphQLErrors[0].extensions)[0]);
-    });
+    signUpMutation({ variables: { username, password } })
+      .then((response) => {
+        const { id } = response.data.userCreate;
+        localStorage.setItem('currentUserId', id);
+        localStorage.setItem('currentUsername', username);
+        navigate('/notes');
+      })
+      .catch((error) => {
+        showNotification(Object.keys(error.graphQLErrors[0].extensions)[0]);
+      });
   };
 
   return (

@@ -6,10 +6,14 @@ import NoteFormDialog from './NoteFormDialog';
 import { useState } from 'react';
 
 function NotesView() {
-  const { data } = useQuery<{notes: Note[]}>(GET_NOTES);
+  const { data } = useQuery<{ notes: Note[] }>(GET_NOTES);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const handleCreateNote = () => { setDialogOpen(true);};
-  const notesList = data?.notes.map(note => <Note note={note} key={note.id} />).reverse();
+  const handleCreateNote = () => {
+    setDialogOpen(true);
+  };
+  const notesList = data?.notes
+    .map((note) => <Note note={note} key={note.id} />)
+    .reverse();
 
   return (
     <>

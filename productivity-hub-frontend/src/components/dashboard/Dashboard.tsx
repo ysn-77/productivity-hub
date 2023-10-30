@@ -5,7 +5,7 @@ import styles from './Dashboard.module.scss';
 import TasksView from '../tasksView/TasksView';
 
 interface DashboardProps {
-  tab: 'Notes' | 'Tasks'
+  tab: 'Notes' | 'Tasks';
 }
 
 function Dashboard({ tab }: DashboardProps) {
@@ -14,13 +14,9 @@ function Dashboard({ tab }: DashboardProps) {
       <Header tab={tab} />
       <Container sx={{ mt: 8 }}>
         <div className={styles.contentWrapper}>
-          {
-            tab === 'Notes'
-              ?  <NotesView />
-              : <TasksView />
-          }
+          {tab === 'Notes' ? <NotesView /> : <TasksView />}
         </div>
-      </Container >
+      </Container>
     </>
   );
 }

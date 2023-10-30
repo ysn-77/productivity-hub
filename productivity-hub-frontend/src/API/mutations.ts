@@ -19,12 +19,14 @@ export const USER_CREATE = gql`
 `;
 
 export const TASK_CREATE = gql`
-  mutation taskCreate($name: String!, $description: String, $dueDate: ISO8601Date) {
-    taskCreate(input: {
-      name: $name
-      description: $description
-      dueDate: $dueDate
-    }) {
+  mutation taskCreate(
+    $name: String!
+    $description: String
+    $dueDate: ISO8601Date
+  ) {
+    taskCreate(
+      input: { name: $name, description: $description, dueDate: $dueDate }
+    ) {
       id
       name
       description
@@ -34,13 +36,20 @@ export const TASK_CREATE = gql`
 `;
 
 export const TASK_UPDATE = gql`
-  mutation taskUpdate($id: ID!, $name: String, $description: String, $dueDate: ISO8601Date) {
-    taskUpdate(input: {
-      id: $id
-      name: $name
-      description: $description
-      dueDate: $dueDate
-    }) {
+  mutation taskUpdate(
+    $id: ID!
+    $name: String
+    $description: String
+    $dueDate: ISO8601Date
+  ) {
+    taskUpdate(
+      input: {
+        id: $id
+        name: $name
+        description: $description
+        dueDate: $dueDate
+      }
+    ) {
       id
       name
       description
@@ -58,11 +67,8 @@ export const TASK_DELETE = gql`
 `;
 
 export const NOTE_CREATE = gql`
- mutation noteCreate($name: String!, $content: String) {
-    noteCreate(input: {
-      name: $name
-      content: $content
-    }) {
+  mutation noteCreate($name: String!, $content: String) {
+    noteCreate(input: { name: $name, content: $content }) {
       id
       name
       content
@@ -72,11 +78,7 @@ export const NOTE_CREATE = gql`
 
 export const NOTE_UPDATE = gql`
   mutation noteUpdate($id: ID!, $name: String, $content: String) {
-    noteUpdate(input: {
-      id: $id
-      name: $name
-      content: $content
-    }) {
+    noteUpdate(input: { id: $id, name: $name, content: $content }) {
       id
       name
       content
@@ -91,4 +93,3 @@ export const NOTE_DELETE = gql`
     }
   }
 `;
-

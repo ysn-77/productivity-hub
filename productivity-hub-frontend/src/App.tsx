@@ -1,7 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 import LoginForm from './components/login/LoginForm';
 import SignUpForm from './components/signUp/SignUpForm';
@@ -18,11 +15,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/notes',
-    element: <Dashboard tab='Notes'/>,
+    element: <Dashboard tab="Notes" />,
   },
   {
     path: '/tasks',
-    element: <Dashboard tab='Tasks' />,
+    element: <Dashboard tab="Tasks" />,
   },
   {
     path: '*',
@@ -31,9 +28,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return (
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

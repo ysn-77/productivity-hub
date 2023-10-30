@@ -7,7 +7,7 @@ export const GET_NOTES = gql`
       name
       content
     }
-}
+  }
 `;
 
 export const GET_TASKS = gql`
@@ -18,5 +18,5 @@ export const GET_TASKS = gql`
       description
       dueDate
     }
-}
+  }
 `;

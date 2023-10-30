@@ -7,8 +7,6 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import './index.css';
 import { apolloClient } from './API/apolloClient.ts';
 
-
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>

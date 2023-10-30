@@ -1,4 +1,12 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from '@mui/material';
 import { NOTE_CREATE, NOTE_UPDATE } from '../../API/mutations';
 import { useMutation } from '@apollo/client';
 import showNotification from '../../utils/showNotification';
@@ -7,9 +15,9 @@ import { GET_NOTES } from '../../API/queries';
 import { ChangeEvent, useState } from 'react';
 
 interface NoteFormDialogProps {
-  open: boolean,
-  setOpen: (value: boolean) => void,
-  note?: Note
+  open: boolean;
+  setOpen: (value: boolean) => void;
+  note?: Note;
 }
 
 function NoteFormDialog({ open, setOpen, note }: NoteFormDialogProps) {
@@ -33,18 +41,25 @@ function NoteFormDialog({ open, setOpen, note }: NoteFormDialogProps) {
 
   const handleSubmit = () => {
     const mutation = isEdit ? updateNoteMutation : createNoteMutation;
-    const variables = isEdit ? { id: note.id, name, content } : { name, content };
+    const variables = isEdit
+      ? { id: note.id, name, content }
+      : { name, content };
 
-    mutation({ variables }).then(() => {
-      showNotification(isEdit ? 'Note Edited' : 'Note Created', 'success');
-      apolloClient.refetchQueries({
-        include: [GET_NOTES],
-      }).finally();
-    }).catch(error => {
-      showNotification(error.message);
-    }).finally(() => {
-      setOpen(false);
-    });
+    mutation({ variables })
+      .then(() => {
+        showNotification(isEdit ? 'Note Edited' : 'Note Created', 'success');
+        apolloClient
+          .refetchQueries({
+            include: [GET_NOTES],
+          })
+          .finally();
+      })
+      .catch((error) => {
+        showNotification(error.message);
+      })
+      .finally(() => {
+        setOpen(false);
+      });
   };
 
   return (
@@ -56,7 +71,7 @@ function NoteFormDialog({ open, setOpen, note }: NoteFormDialogProps) {
             label="Name"
             required
             autoFocus
-            autoComplete='off'
+            autoComplete="off"
             margin="dense"
             fullWidth
             variant="outlined"

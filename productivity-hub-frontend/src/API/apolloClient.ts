@@ -1,5 +1,10 @@
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client';
-
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  from,
+} from '@apollo/client';
 
 const API_URL = 'http://localhost:3000/graphql';
 
@@ -10,7 +15,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
     headers: {
       ...headers,
       'User-Id': localStorage.getItem('currentUserId'),
-    }
+    },
   }));
 
   return forward(operation);
@@ -18,9 +23,5 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  link: from([
-    authMiddleware,
-    httpLink
-  ]),
+  link: from([authMiddleware, httpLink]),
 });
-
