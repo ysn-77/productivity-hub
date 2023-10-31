@@ -2,9 +2,9 @@ import {
   Box,
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
+  Stack,
   TextField,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -34,8 +34,11 @@ function TaskFormDialog({ open, setOpen, task }: TaskFormDialogProps) {
   const [createTaskMutation] = useMutation(TASK_CREATE);
   const [updateTaskMutation] = useMutation(TASK_UPDATE);
 
-  const handleClose = () => {
+  const closeForm = () => {
     setOpen(false);
+    setName('');
+    setDescription('');
+    setDueDate(null);
   };
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -64,18 +67,16 @@ function TaskFormDialog({ open, setOpen, task }: TaskFormDialogProps) {
             include: [GET_TASKS],
           })
           .finally();
+        closeForm();
       })
       .catch((error) => {
         console.log(error.message);
         showNotification(error.message);
-      })
-      .finally(() => {
-        setOpen(false);
       });
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={closeForm}>
       <DialogTitle>{isEdit ? 'Edit Task' : 'Create Task'}</DialogTitle>
       <DialogContent>
         <Box component="form" onSubmit={handleSubmit}>
@@ -110,12 +111,12 @@ function TaskFormDialog({ open, setOpen, task }: TaskFormDialogProps) {
               field: { clearable: true },
             }}
           />
+          <Stack direction="row" justifyContent="end" mt={2}>
+            <Button onClick={closeForm}>Cancel</Button>
+            <Button type="submit">Save</Button>
+          </Stack>
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Save</Button>
-      </DialogActions>
     </Dialog>
   );
 }

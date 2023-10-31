@@ -2,9 +2,9 @@ import {
   Box,
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
+  Stack,
   TextField,
 } from '@mui/material';
 import { NOTE_CREATE, NOTE_UPDATE } from '../../API/mutations';
@@ -27,8 +27,10 @@ function NoteFormDialog({ open, setOpen, note }: NoteFormDialogProps) {
   const [createNoteMutation] = useMutation(NOTE_CREATE);
   const [updateNoteMutation] = useMutation(NOTE_UPDATE);
 
-  const handleClose = () => {
+  const closeForm = () => {
     setOpen(false);
+    setName('');
+    setContent('');
   };
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -53,17 +55,15 @@ function NoteFormDialog({ open, setOpen, note }: NoteFormDialogProps) {
             include: [GET_NOTES],
           })
           .finally();
+        closeForm();
       })
       .catch((error) => {
         showNotification(error.message);
-      })
-      .finally(() => {
-        setOpen(false);
       });
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={closeForm}>
       <DialogTitle>{isEdit ? 'Edit Note' : 'Create Note'}</DialogTitle>
       <DialogContent>
         <Box component="form" onSubmit={handleSubmit}>
@@ -88,12 +88,12 @@ function NoteFormDialog({ open, setOpen, note }: NoteFormDialogProps) {
             value={content}
             onChange={handleContentChange}
           />
+          <Stack direction="row" justifyContent="end" mt={2}>
+            <Button onClick={closeForm}>Cancel</Button>
+            <Button type="submit">Save</Button>
+          </Stack>
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Save</Button>
-      </DialogActions>
     </Dialog>
   );
 }
