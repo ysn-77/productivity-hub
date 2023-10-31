@@ -41,9 +41,9 @@ type Mutation {
 
 This GraphQL schema defines the types User, Task, and Note.
 It includes queries and mutations for creating, updating, and deleting tasks/notes.
-It also includes login and creating user as fetching user-specific tasks/notes.
+It also includes login, creating user and fetching user-specific tasks/notes.
 
 A database will be needed to persist user data, tasks, and notes.
-The resolver functions for User, Tasks and Notes would handle the logic for querying and manipulating this data based on the GraphQL schema's definitions,
+The resolver functions for User, Tasks and Notes would handle the logic for querying and manipulating this data based on the GraphQL schema's definitions.
 They will also be responsible for raising any errors during execution.
 Additionally, we will need authentication and authorization mechanisms to ensure that users can only access and modify their own tasks and notes.
